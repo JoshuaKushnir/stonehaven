@@ -1,0 +1,21 @@
+[
+  {
+    "id": "wren-hollow",
+    "quote": "Margaret and her team did what we'd asked three other firms to do and watched them all walk away from. Five years on, the garden looks like it's always been there. That's the highest compliment I can pay it.",
+    "author": "Eleanor & Davis Park",
+    "role": "Owners",
+    "project": "Wren Hollow"
+  },
+  {
+    "id": "hollow-ridge",
+    "quote": "We came in with an architect we trusted and a builder we trusted. Stonehaven matched them on every site visit. The handoff to estate management was seamless — the same crew that built the terraces still maintains them.",
+    "author": "Priya Anand",
+    "role": "Client, Hollow Ridge Estate"
+  },
+  {
+    "id": "foundry-court",
+    "quote": "Commercial work usually means cutting somewhere. Stonehaven cut nowhere. They built the courtyard for less than two of the firms we shortlisted, and the bluestone joints look like they were laid by a single hand.",
+    "author": "Marcus Holloway, AIA",
+    "role": "Principal, Holloway Architecture"
+  }
+]

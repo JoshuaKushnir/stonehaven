@@ -1,0 +1,26 @@
+[
+  {
+    "id": "margaret-wren",
+    "name": "Margaret Wren, ASLA",
+    "title": "Principal Landscape Architect",
+    "bio": "Margaret founded Stonehaven in 2011 after eight years at Reed Hilderbrand. Her work has been recognized by the American Society of Landscape Architects and published in House & Garden and Garden Design. She holds an MLA from the Harvard Graduate School of Design.",
+    "credentials": [
+      "ASLA, registered in NY, CT, NJ, MA",
+      "MLA, Harvard Graduate School of Design",
+      "BFA, Rhode Island School of Design"
+    ],
+    "portrait": "/img/stonehaven-margaret.svg?w=800&h=1000"
+  },
+  {
+    "id": "daniel-harlowe",
+    "name": "Daniel Harlowe",
+    "title": "Master Mason · Build Director",
+    "bio": "Daniel runs Stonehaven's build operations and is a third-generation mason. His crews build every wall, terrace, and water feature in-house. He has trained twelve apprentices in dry-stone construction since 2015 and serves on the New York Stone Industry Alliance.",
+    "credentials": [
+      "Stone Foundation certified master craftsman",
+      "Member, Dry Stone Conservancy",
+      "NY State licensed home improvement contractor"
+    ],
+    "portrait": "/img/stonehaven-daniel.svg?w=800&h=1000"
+  }
+]

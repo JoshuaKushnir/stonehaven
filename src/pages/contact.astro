@@ -1,0 +1,243 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+import { pageJsonLd } from '../lib/seo';
+
+const url = new URL(Astro.request.url);
+const sent = url.searchParams.get('sent') === '1';
+const errorParam = url.searchParams.get('error');
+
+const errorMessages: Record<string, string> = {
+  'missing-required-fields': 'Please fill in your name, email, and message.',
+  'invalid-email': 'That email address doesn\'t look quite right.',
+  'send-failed': 'Something went wrong sending your note. Please email the studio directly.',
+};
+
+const jsonLd = pageJsonLd({
+  type: 'ContactPage',
+  name: 'Contact the Studio',
+  description: 'Begin a project with Stonehaven. We typically respond within two business days.',
+  url: new URL('/contact', site.url).toString(),
+});
+---
+
+<Base
+  title="Contact"
+  description="Begin a project with Stonehaven. We typically respond within two business days."
+  jsonLd={jsonLd}
+>
+  <section class="container-prose pt-16 md:pt-28 pb-12 md:pb-16">
+    <p class="eyebrow">Contact</p>
+    <h1 class="mt-5 font-display text-5xl md:text-6xl max-w-3xl">
+      Begin a conversation<br />with the studio.
+    </h1>
+    <p class="mt-8 max-w-2xl text-lg text-[color:var(--color-slate)] leading-[1.55]">
+      We respond to every inquiry within two business days. The more you can tell us about your site and your aspirations for it, the more useful our first reply will be.
+    </p>
+  </section>
+
+  <!-- AI ASSISTANT NUDGE -->
+  <section class="container-prose pb-14">
+    <div class="hairline pt-10 grid md:grid-cols-12 gap-x-10 gap-y-4 items-center">
+      <div class="md:col-span-8">
+        <p class="eyebrow">Or, before you write</p>
+        <p class="mt-3 font-display text-2xl md:text-3xl text-[color:var(--color-ink)]">
+          Talk it through with the studio's assistant.
+        </p>
+        <p class="mt-3 text-[color:var(--color-slate)] max-w-2xl text-sm leading-relaxed">
+          An AI-assisted intake that asks the questions Margaret would ask first. Useful if you're still shaping the brief, or if you'd like a quick sense of whether your project is a fit. The studio reviews every conversation.
+        </p>
+      </div>
+      <div class="md:col-span-4 md:text-right">
+        <button type="button" data-open-chat class="btn btn-primary">
+          Open the assistant →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('[data-open-chat]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        document.getElementById('chat-launcher')?.click();
+      }),
+    );
+  </script>
+
+  <section class="container-prose pb-32 md:pb-44 grid md:grid-cols-12 gap-x-10 gap-y-12">
+    <!-- FORM -->
+    <div class="md:col-span-7">
+      {sent && (
+        <div role="status" class="mb-8 p-6 border border-[color:var(--color-moss)]/40 bg-[color:var(--color-moss)]/8">
+          <p class="font-display text-2xl text-[color:var(--color-ink)]">Thank you.</p>
+          <p class="mt-2 text-[color:var(--color-slate)]">Your note has reached the studio. We'll be in touch within two business days.</p>
+        </div>
+      )}
+      {errorParam && errorMessages[errorParam] && (
+        <div role="alert" class="mb-8 p-6 border border-red-700/30 bg-red-50">
+          <p class="font-display text-xl text-red-900">A note of correction.</p>
+          <p class="mt-1 text-sm text-red-900/80">{errorMessages[errorParam]}</p>
+        </div>
+      )}
+
+      <form method="POST" action="/api/quote" class="space-y-7" id="quote-form" novalidate>
+        <div class="grid md:grid-cols-2 gap-x-6 gap-y-7">
+          <label class="block">
+            <span class="eyebrow">Name *</span>
+            <input
+              type="text"
+              name="name"
+              required
+              autocomplete="name"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            />
+          </label>
+          <label class="block">
+            <span class="eyebrow">Email *</span>
+            <input
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            />
+          </label>
+          <label class="block">
+            <span class="eyebrow">Phone</span>
+            <input
+              type="tel"
+              name="phone"
+              autocomplete="tel"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            />
+          </label>
+          <label class="block">
+            <span class="eyebrow">Project location</span>
+            <input
+              type="text"
+              name="location"
+              placeholder="Town, state"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors placeholder:text-[color:var(--color-stone)]/60"
+            />
+          </label>
+          <label class="block">
+            <span class="eyebrow">Project scope</span>
+            <select
+              name="scope"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            >
+              <option value="">Select…</option>
+              <option>Design only</option>
+              <option>Design and build</option>
+              <option>Build only (design in hand)</option>
+              <option>Estate management</option>
+              <option>Not yet sure</option>
+            </select>
+          </label>
+          <label class="block">
+            <span class="eyebrow">Budget range</span>
+            <select
+              name="budget"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            >
+              <option value="">Select…</option>
+              <option>Under $250k</option>
+              <option>$250k — $500k</option>
+              <option>$500k — $1M</option>
+              <option>$1M — $3M</option>
+              <option>$3M+</option>
+            </select>
+          </label>
+          <label class="block md:col-span-2">
+            <span class="eyebrow">Timeline</span>
+            <select
+              name="timeline"
+              class="mt-2 w-full bg-transparent border-0 border-b border-[color:var(--color-slate)]/25 focus:border-[color:var(--color-ink)] py-2 text-base focus:outline-none focus:ring-0 transition-colors"
+            >
+              <option value="">Select…</option>
+              <option>This season</option>
+              <option>Next season</option>
+              <option>Within 18 months</option>
+              <option>Long planning horizon</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="block">
+          <span class="eyebrow">About the project *</span>
+          <textarea
+            name="message"
+            required
+            rows="6"
+            placeholder="Tell us about the site and what you'd like the garden to do."
+            class="mt-2 w-full bg-transparent border border-[color:var(--color-slate)]/20 focus:border-[color:var(--color-ink)] p-4 text-base focus:outline-none focus:ring-0 transition-colors placeholder:text-[color:var(--color-stone)]/60"
+          ></textarea>
+        </label>
+
+        <div class="flex flex-wrap items-center gap-6 pt-2">
+          <button type="submit" class="btn btn-primary">
+            <span data-submit-idle>Send to the Studio</span>
+            <span data-submit-loading class="hidden">Sending…</span>
+          </button>
+          <p class="text-xs text-[color:var(--color-stone)]">Required fields marked with *</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- SIDE -->
+    <aside class="md:col-span-5 md:pl-8 md:border-l border-[color:var(--color-slate)]/15 space-y-8">
+      <div>
+        <p class="eyebrow mb-3">Studio</p>
+        <p class="text-[color:var(--color-slate)]">{site.address.street}</p>
+        <p class="text-[color:var(--color-slate)]">{site.address.city}, {site.address.region} {site.address.postalCode}</p>
+      </div>
+      <div>
+        <p class="eyebrow mb-3">Direct</p>
+        <p><a href={`mailto:${site.email}`} class="text-[color:var(--color-ink)] underline decoration-1 underline-offset-4 hover:decoration-[color:var(--color-moss)]">{site.email}</a></p>
+        <p class="mt-1"><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-[color:var(--color-ink)]">{site.phone}</a></p>
+      </div>
+      <div>
+        <p class="eyebrow mb-3">Hours</p>
+        <p class="text-[color:var(--color-slate)] text-sm">{site.hours}</p>
+      </div>
+      <div class="hairline pt-6">
+        <p class="text-xs text-[color:var(--color-stone)] leading-relaxed">
+          We take six new projects each season. Inquiries close eight weeks before the season begins. If our calendar is full we'll tell you on first reply.
+        </p>
+      </div>
+    </aside>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('quote-form') as HTMLFormElement | null;
+  if (form) {
+    const idle = form.querySelector<HTMLElement>('[data-submit-idle]');
+    const loading = form.querySelector<HTMLElement>('[data-submit-loading]');
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      idle?.classList.add('hidden');
+      loading?.classList.remove('hidden');
+      if (btn) btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'accept': 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          window.location.href = '/contact?sent=1';
+          return;
+        }
+        const errorKey = data.error || 'send-failed';
+        window.location.href = `/contact?error=${encodeURIComponent(errorKey)}`;
+      } catch (err) {
+        window.location.href = '/contact?error=send-failed';
+      }
+    });
+  }
+</script>

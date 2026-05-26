@@ -1,0 +1,74 @@
+[
+  {
+    "id": "bedford-ny",
+    "slug": "bedford-ny",
+    "town": "Bedford",
+    "state": "NY",
+    "region": "Westchester County",
+    "image": "/img/stonehaven-bedford.svg?w=1200&h=900",
+    "description": "Stonehaven has designed and built gardens across Bedford and the surrounding hamlets of Pound Ridge, Katonah, and Mount Kisco since the studio opened. Our crews work weekly across the area; site visits are typically same-week."
+  },
+  {
+    "id": "greenwich-ct",
+    "slug": "greenwich-ct",
+    "town": "Greenwich",
+    "state": "CT",
+    "region": "Fairfield County",
+    "image": "/img/stonehaven-greenwich.svg?w=1200&h=900",
+    "description": "Backcountry estates, Round Hill, Riverside, Belle Haven — we've built across Greenwich for over a decade. Daniel keeps a build crew based out of Stamford for projects in the area."
+  },
+  {
+    "id": "new-canaan-ct",
+    "slug": "new-canaan-ct",
+    "town": "New Canaan",
+    "state": "CT",
+    "region": "Fairfield County",
+    "image": "/img/stonehaven-newcanaan.svg?w=1200&h=900",
+    "description": "Mid-century modern landscapes are some of our most rewarding work. New Canaan's modernist heritage calls for restrained planting and exact stonework — a discipline we welcome."
+  },
+  {
+    "id": "westport-ct",
+    "slug": "westport-ct",
+    "town": "Westport",
+    "state": "CT",
+    "region": "Fairfield County",
+    "image": "/img/stonehaven-westport.svg?w=1200&h=900",
+    "description": "From coastal properties on Compo Beach to wooded sites further inland, Westport projects often combine native plantings with custom hardscape and discreet site lighting."
+  },
+  {
+    "id": "litchfield-ct",
+    "slug": "litchfield-ct",
+    "town": "Litchfield",
+    "state": "CT",
+    "region": "Litchfield County",
+    "image": "/img/stonehaven-litchfield.svg?w=1200&h=900",
+    "description": "Historic Litchfield properties demand restraint. We've restored stone walls dating to the 1780s and designed kitchen gardens that look like they've been tended for generations."
+  },
+  {
+    "id": "hudson-ny",
+    "slug": "hudson-ny",
+    "town": "Hudson",
+    "state": "NY",
+    "region": "Hudson Valley",
+    "image": "/img/stonehaven-hudson.svg?w=1200&h=900",
+    "description": "Our studio sits on Warren Street. We work extensively across Columbia County — from working farms to in-town gardens — and our crews are within thirty minutes of most sites."
+  },
+  {
+    "id": "rhinebeck-ny",
+    "slug": "rhinebeck-ny",
+    "town": "Rhinebeck",
+    "state": "NY",
+    "region": "Hudson Valley",
+    "image": "/img/stonehaven-rhinebeck.svg?w=1200&h=900",
+    "description": "Rhinebeck and the surrounding Dutchess County estates have been a regular part of our portfolio since 2014. Many of our larger naturalistic plantings live here."
+  },
+  {
+    "id": "princeton-nj",
+    "slug": "princeton-nj",
+    "town": "Princeton",
+    "state": "NJ",
+    "region": "Mercer County",
+    "image": "/img/stonehaven-princeton.svg?w=1200&h=900",
+    "description": "A select number of Princeton-area projects each year. Travel is built into the engagement and our build crews stage out of a Bucks County, PA yard for the season."
+  }
+]

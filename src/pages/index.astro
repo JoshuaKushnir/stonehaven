@@ -1,0 +1,182 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+
+const allProjects = await getCollection('projects');
+const featured = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
+
+const services = (await getCollection('services')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const testimonials = await getCollection('testimonials');
+const heroTestimonial = testimonials[0];
+---
+
+<Base
+  title={undefined}
+  description="A landscape architecture and design-build studio working across the Hudson Valley, Westchester, Fairfield County, and the New York coast."
+>
+  <!-- HERO -->
+  <section class="relative">
+    <div class="container-prose pt-12 md:pt-24 pb-10 md:pb-20 grid md:grid-cols-12 gap-x-8 gap-y-12 items-end">
+      <div class="md:col-span-6 lg:col-span-5">
+        <p class="eyebrow">Est. {site.founded} — Hudson, NY</p>
+        <h1 class="mt-5 font-display text-5xl md:text-6xl lg:text-7xl text-[color:var(--color-ink)]">
+          The garden, <em class="italic font-normal">found</em>.
+        </h1>
+        <p class="mt-7 text-lg text-[color:var(--color-slate)] max-w-md">
+          Stonehaven is a landscape architecture and design-build studio working across New York, Connecticut, and New Jersey. We design gardens that look like they have always been there.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-6">
+          <a href="/projects" class="btn btn-primary">View Projects</a>
+          <a href="/about" class="btn btn-ghost">About the Studio</a>
+        </div>
+      </div>
+      <div class="md:col-span-6 lg:col-span-7 md:pl-6">
+        <figure class="relative aspect-[5/6] md:aspect-[4/5] overflow-hidden">
+          <img
+            src="/img/stonehaven-hero.svg?w=1600&h=2000"
+            alt="A bluestone terrace overlooking a meadow at Hollow Ridge Estate"
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <figcaption class="absolute bottom-4 left-4 text-xs uppercase tracking-[0.16em] text-[color:var(--color-bone)] mix-blend-difference">
+            Hollow Ridge — Bedford, NY
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section class="mt-24 md:mt-36">
+    <div class="container-prose flex items-end justify-between mb-12 md:mb-16">
+      <div>
+        <p class="eyebrow">Selected Work</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl">Recent projects</h2>
+      </div>
+      <a href="/projects" class="btn-ghost text-sm">All projects →</a>
+    </div>
+
+    <div class="container-prose grid md:grid-cols-12 gap-x-8 gap-y-16">
+      {featured.map((p, i) => {
+        const colSpan = i === 0 ? 'md:col-span-7' : 'md:col-span-5';
+        const offset = i === 1 ? 'md:mt-24' : '';
+        return (
+          <a href={`/projects/${p.id}`} class={`group ${colSpan} ${offset} block`}>
+            <figure class="relative overflow-hidden aspect-[4/5]">
+              <img
+                src={p.data.coverImage}
+                alt={p.data.title}
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </figure>
+            <div class="mt-5 flex items-baseline justify-between gap-4">
+              <h3 class="font-display text-2xl text-[color:var(--color-ink)]">{p.data.title}</h3>
+              <span class="text-xs uppercase tracking-[0.16em] text-[color:var(--color-stone)] whitespace-nowrap">
+                {p.data.location}
+              </span>
+            </div>
+            <p class="mt-2 text-sm text-[color:var(--color-slate)] line-clamp-2">{p.data.summary}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="mt-36 md:mt-48 bg-[color:var(--color-paper)] py-24 md:py-36">
+    <div class="container-prose grid md:grid-cols-12 gap-x-10 gap-y-10 items-start">
+      <div class="md:col-span-5">
+        <p class="eyebrow">Approach</p>
+        <h2 class="mt-4 font-display text-4xl md:text-5xl">
+          We work the way<br />a small studio<br /><em class="italic font-normal">should</em>.
+        </h2>
+      </div>
+      <div class="md:col-span-7 md:pl-10 space-y-6 text-[color:var(--color-slate)]">
+        <p class="text-lg leading-[1.6]">
+          One landscape architect leads every project from first conversation through the final planting. Daniel's masons build every wall, terrace, and water feature in-house. Nothing important is subcontracted.
+        </p>
+        <p>
+          We take on six new projects a year. Smaller than that and we couldn't sustain the work; larger and the work would suffer. The garden you commission gets the same hours of attention from the same people, whether it's a half-acre courtyard or a forty-acre estate.
+        </p>
+        <p>
+          That deliberate pace shows in the work. Joints sit tight. Plant palettes hold up through five seasons. And five years on, the gardens read as inevitable — as if they were always meant to be there.
+        </p>
+        <div class="pt-4">
+          <a href="/about" class="btn-ghost text-sm">Meet the studio →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="mt-32 md:mt-44">
+    <div class="container-prose">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="eyebrow">Capabilities</p>
+          <h2 class="mt-3 font-display text-3xl md:text-4xl">Services</h2>
+        </div>
+        <a href="/services" class="btn-ghost text-sm">All services →</a>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-y-12 gap-x-12">
+        {services.map((s) => (
+          <a href={`/services#${s.data.slug}`} class="group block">
+            <div class="flex items-baseline gap-4">
+              <span class="eyebrow">{s.data.eyebrow}</span>
+            </div>
+            <h3 class="mt-3 font-display text-3xl md:text-4xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-moss-deep)] transition-colors">
+              {s.data.title}
+            </h3>
+            <p class="mt-3 text-[color:var(--color-slate)] max-w-md">{s.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  {heroTestimonial && (
+    <section class="mt-36 md:mt-48 py-24 md:py-32 bg-[color:var(--color-ink)] text-[color:var(--color-bone)]">
+      <div class="container-prose max-w-3xl">
+        <p class="eyebrow" style="color: color-mix(in oklab, var(--color-bone) 60%, transparent);">A client wrote</p>
+        <blockquote class="mt-6 font-display text-3xl md:text-4xl leading-[1.2]">
+          &ldquo;{heroTestimonial.data.quote}&rdquo;
+        </blockquote>
+        <footer class="mt-8 text-sm" style="color: color-mix(in oklab, var(--color-bone) 70%, transparent);">
+          {heroTestimonial.data.author}
+          {heroTestimonial.data.project && (
+            <>
+              <span class="mx-2 opacity-50">·</span>
+              {heroTestimonial.data.project}
+            </>
+          )}
+        </footer>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="mt-32 md:mt-44 mb-20 md:mb-32">
+    <div class="container-prose grid md:grid-cols-12 gap-x-10 items-end">
+      <div class="md:col-span-7">
+        <p class="eyebrow">Begin a project</p>
+        <h2 class="mt-4 font-display text-4xl md:text-5xl">
+          Considering a project<br />for next season?
+        </h2>
+        <p class="mt-6 max-w-lg text-[color:var(--color-slate)]">
+          Our calendar fills approximately a year ahead. The earlier we begin the conversation, the more time the design has to settle.
+        </p>
+      </div>
+      <div class="md:col-span-5 md:text-right mt-8 md:mt-0">
+        <a href="/contact" class="btn btn-primary">Begin a Project</a>
+      </div>
+    </div>
+  </section>
+</Base>

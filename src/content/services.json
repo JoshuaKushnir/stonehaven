@@ -1,0 +1,66 @@
+[
+  {
+    "id": "architecture",
+    "slug": "landscape-architecture",
+    "title": "Landscape Architecture",
+    "eyebrow": "01 — Design",
+    "description": "Master planning, site analysis, and full design documentation. We work from first survey through construction administration — drawings every contractor on site can build from without guessing.",
+    "bullets": [
+      "Site analysis & topographic survey coordination",
+      "Master plans and phased build-out strategies",
+      "Construction documents, planting plans, lighting plans",
+      "Permitting & conservation-district liaison",
+      "Construction administration with weekly site visits"
+    ],
+    "priceFrom": "Design fees from $40,000",
+    "image": "/img/stonehaven-architecture.svg?w=1600&h=1200"
+  },
+  {
+    "id": "hardscape",
+    "slug": "hardscape-and-masonry",
+    "title": "Hardscape & Masonry",
+    "eyebrow": "02 — Build",
+    "description": "Bluestone terraces, dry-laid fieldstone walls, custom pools, fire pits, outdoor kitchens — built by our own crews under a master mason. We don't sub out the stonework.",
+    "bullets": [
+      "Bluestone, limestone, and granite paving",
+      "Dry-laid and mortared fieldstone walls",
+      "Pool & spa coordination with licensed builders",
+      "Custom fire features and outdoor kitchens",
+      "Drainage, grading, and structural engineering"
+    ],
+    "priceFrom": "Build budgets from $250,000",
+    "image": "/img/stonehaven-masonry.svg?w=1600&h=1200"
+  },
+  {
+    "id": "planting",
+    "slug": "planting-and-horticulture",
+    "title": "Planting & Horticulture",
+    "eyebrow": "03 — Plant",
+    "description": "Native and naturalized plantings sourced from a small network of growers we've worked with for years. Mature specimen installation, meadow restoration, and four-season palettes.",
+    "bullets": [
+      "Native plant palettes designed for site conditions",
+      "Mature tree and specimen installation up to 8\" caliper",
+      "Meadow establishment and pollinator habitat",
+      "Heirloom kitchen gardens and orchards",
+      "Five-year plant warranty on installations"
+    ],
+    "priceFrom": "Installation budgets from $75,000",
+    "image": "/img/stonehaven-planting.svg?w=1600&h=1200"
+  },
+  {
+    "id": "management",
+    "slug": "estate-management",
+    "title": "Estate Management",
+    "eyebrow": "04 — Tend",
+    "description": "Ongoing stewardship for the gardens we design. Fine pruning, irrigation, lighting service, and seasonal transitions handled by horticulturists who know your property by name.",
+    "bullets": [
+      "Year-round horticultural care by named team",
+      "Fine pruning and structural tree work",
+      "Irrigation, lighting, and water-feature service",
+      "Seasonal color rotations and bulb programs",
+      "Annual landscape report with photos and recommendations"
+    ],
+    "priceFrom": "Annual programs from $18,000",
+    "image": "/img/stonehaven-management.svg?w=1600&h=1200"
+  }
+]

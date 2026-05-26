@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../lib/site';
+import { pageJsonLd } from '../../lib/seo';
+
+const areas = (await getCollection('areas')).sort((a, b) =>
+  (a.data.state + a.data.town).localeCompare(b.data.state + b.data.town),
+);
+
+const byRegion: Record<string, typeof areas> = {};
+for (const a of areas) {
+  (byRegion[a.data.region] ??= []).push(a);
+}
+
+const jsonLd = pageJsonLd({
+  type: 'CollectionPage',
+  name: 'Service Area',
+  description: 'Service area across the Hudson Valley, Westchester County, Fairfield County, Litchfield County, and select projects in New Jersey.',
+  url: new URL('/areas', site.url).toString(),
+});
+---
+
+<Base
+  title="Service Area"
+  description="Service area across the Hudson Valley, Westchester County, Fairfield County, Litchfield County, and select projects in New Jersey."
+  jsonLd={jsonLd}
+>
+  <section class="container-prose pt-16 md:pt-28 pb-12">
+    <p class="eyebrow">Service Area</p>
+    <h1 class="mt-5 font-display text-5xl md:text-6xl max-w-3xl">
+      Where the studio<br />keeps a crew.
+    </h1>
+    <p class="mt-8 max-w-2xl text-lg text-[color:var(--color-slate)]">
+      Our crews work weekly across the towns below. For projects further afield we ask for an early conversation — travel and seasonal staging shape what's possible.
+    </p>
+  </section>
+
+  <section class="container-prose pb-32 space-y-20 md:space-y-28">
+    {Object.entries(byRegion).map(([region, towns]) => (
+      <div class="hairline pt-10">
+        <p class="eyebrow">{region}</p>
+        <ul class="mt-8 grid md:grid-cols-3 gap-x-8 gap-y-10 list-none p-0">
+          {towns.map((t) => (
+            <li>
+              <a href={`/areas/${t.data.slug}`} class="group block">
+                <figure class="relative aspect-[4/3] overflow-hidden">
+                  <img src={t.data.image} alt={`${t.data.town}, ${t.data.state}`} loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                </figure>
+                <h2 class="mt-5 font-display text-2xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-moss-deep)] transition-colors">
+                  {t.data.town}, {t.data.state}
+                </h2>
+                <p class="mt-2 text-sm text-[color:var(--color-slate)] line-clamp-2">{t.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+</Base>

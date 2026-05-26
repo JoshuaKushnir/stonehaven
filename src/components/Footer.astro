@@ -1,0 +1,63 @@
+---
+import { site, nav } from '../lib/site';
+import { getCollection } from 'astro:content';
+
+const areas = (await getCollection('areas')).slice(0, 6);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-32 border-t border-[color:var(--color-slate)]/12 bg-[color:var(--color-paper)]">
+  <div class="container-prose py-20 grid gap-14 md:grid-cols-4 md:gap-10">
+    <div class="md:col-span-2">
+      <div class="font-display text-3xl tracking-tight">Stonehaven</div>
+      <p class="mt-3 max-w-md text-[color:var(--color-slate)]">{site.tagline}</p>
+      <p class="mt-8 text-sm text-[color:var(--color-stone)]">
+        {site.address.street}<br />
+        {site.address.city}, {site.address.region} {site.address.postalCode}
+      </p>
+      <p class="mt-3 text-sm text-[color:var(--color-stone)]">
+        <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="hover:text-[color:var(--color-ink)] transition-colors">{site.phone}</a>
+        <span class="mx-2 text-[color:var(--color-sand)]">·</span>
+        <a href={`mailto:${site.email}`} class="hover:text-[color:var(--color-ink)] transition-colors">{site.email}</a>
+      </p>
+    </div>
+
+    <div>
+      <div class="eyebrow mb-4">Studio</div>
+      <ul class="space-y-2 text-sm">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} class="text-[color:var(--color-slate)] hover:text-[color:var(--color-ink)] transition-colors">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <div class="eyebrow mb-4">Service Area</div>
+      <ul class="space-y-2 text-sm">
+        {areas.map((area) => (
+          <li>
+            <a href={`/areas/${area.data.slug}`} class="text-[color:var(--color-slate)] hover:text-[color:var(--color-ink)] transition-colors">
+              {area.data.town}, {area.data.state}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/areas" class="text-[color:var(--color-moss-deep)] hover:text-[color:var(--color-ink)] transition-colors">
+            View all areas →
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-[color:var(--color-slate)]/10">
+    <div class="container-prose py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-[color:var(--color-stone)]">
+      <p>© {year} {site.legalName}. All rights reserved.</p>
+      <p>{site.hours}</p>
+    </div>
+  </div>
+</footer>

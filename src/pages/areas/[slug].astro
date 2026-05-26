@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../lib/site';
+import { pageJsonLd } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const areas = await getCollection('areas');
+  return areas.map((a) => ({
+    params: { slug: a.data.slug },
+    props: { area: a },
+  }));
+}
+
+const { area } = Astro.props;
+const allProjects = await getCollection('projects');
+const projectsHere = allProjects.filter(
+  (p) =>
+    p.data.location.toLowerCase().includes(area.data.town.toLowerCase()) ||
+    p.data.location.toLowerCase().includes(area.data.state.toLowerCase()),
+);
+
+const fullName = `${area.data.town}, ${area.data.state}`;
+
+const jsonLd = pageJsonLd({
+  type: 'WebPage',
+  name: `Landscape Architecture in ${fullName}`,
+  description: `Stonehaven works on landscape architecture and design-build projects in ${fullName}. ${area.data.description}`,
+  url: new URL(`/areas/${area.data.slug}`, site.url).toString(),
+});
+---
+
+<Base
+  title={`Landscape Architecture in ${fullName}`}
+  description={`Stonehaven works on landscape architecture and design-build projects across ${area.data.region}. ${area.data.description}`}
+  image={area.data.image}
+  jsonLd={jsonLd}
+>
+  <section class="relative">
+    <figure class="relative aspect-[16/9] md:aspect-[16/7] overflow-hidden">
+      <img src={area.data.image} alt={fullName} loading="eager" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover" />
+    </figure>
+  </section>
+
+  <section class="container-prose mt-14 md:mt-20 grid md:grid-cols-12 gap-x-10 gap-y-10">
+    <div class="md:col-span-7">
+      <p class="eyebrow">{area.data.region}</p>
+      <h1 class="mt-5 font-display text-5xl md:text-6xl">
+        Landscape architecture<br />in {area.data.town}.
+      </h1>
+      <p class="mt-8 text-lg text-[color:var(--color-slate)] leading-[1.6]">{area.data.description}</p>
+    </div>
+    <aside class="md:col-span-5 md:pl-8 md:border-l border-[color:var(--color-slate)]/15 text-sm space-y-6">
+      <div>
+        <p class="eyebrow mb-3">Studio crew</p>
+        <p class="text-[color:var(--color-slate)]">
+          A dedicated build crew works the {area.data.region} year-round. Site visits typically within a week of request.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow mb-3">Contact</p>
+        <p class="text-[color:var(--color-slate)]">
+          <a href={`mailto:${site.email}?subject=${encodeURIComponent(fullName + ' inquiry')}`} class="hover:text-[color:var(--color-ink)]">{site.email}</a>
+        </p>
+      </div>
+      <div>
+        <a href="/contact" class="btn btn-primary">Begin a Project</a>
+      </div>
+    </aside>
+  </section>
+
+  {projectsHere.length > 0 && (
+    <section class="container-prose mt-32 md:mt-40">
+      <p class="eyebrow">Projects in the area</p>
+      <h2 class="mt-4 font-display text-3xl md:text-4xl">Recent work near {area.data.town}</h2>
+
+      <ul class="mt-12 grid md:grid-cols-2 gap-x-10 gap-y-16 list-none p-0">
+        {projectsHere.slice(0, 4).map((p) => (
+          <li>
+            <a href={`/projects/${p.id}`} class="group block">
+              <figure class="relative aspect-[4/5] overflow-hidden">
+                <img src={p.data.coverImage} alt={p.data.title} loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              </figure>
+              <h3 class="mt-5 font-display text-2xl">{p.data.title}</h3>
+              <p class="mt-1 text-sm text-[color:var(--color-stone)]">{p.data.location}</p>
+              <p class="mt-3 text-sm text-[color:var(--color-slate)] line-clamp-2">{p.data.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="container-prose mt-32 md:mt-40 mb-32 md:mb-44 hairline pt-12">
+    <a href="/areas" class="btn-ghost text-sm">← All service areas</a>
+  </section>
+</Base>

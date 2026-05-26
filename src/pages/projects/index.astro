@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../lib/site';
+import { pageJsonLd } from '../../lib/seo';
+
+const allProjects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
+const categories = ['all', ...new Set(allProjects.map((p) => p.data.category))];
+
+const jsonLd = pageJsonLd({
+  type: 'CollectionPage',
+  name: 'Projects',
+  description: 'Selected residential, estate, and commercial landscape architecture and design-build projects across New York, Connecticut, and New Jersey.',
+  url: new URL('/projects', site.url).toString(),
+});
+
+const labels: Record<string, string> = {
+  all: 'All',
+  residential: 'Residential',
+  estate: 'Estate',
+  commercial: 'Commercial',
+};
+---
+
+<Base
+  title="Projects"
+  description="Selected residential, estate, and commercial landscape architecture projects."
+  jsonLd={jsonLd}
+>
+  <section class="container-prose pt-16 md:pt-28 pb-12">
+    <p class="eyebrow">Selected Work</p>
+    <h1 class="mt-5 font-display text-5xl md:text-6xl max-w-3xl">
+      A studio's portfolio<br />is its only argument.
+    </h1>
+    <p class="mt-8 max-w-2xl text-lg text-[color:var(--color-slate)]">
+      We take on a small number of projects each year. The work below represents most of what we've built over the last five seasons.
+    </p>
+  </section>
+
+  <!-- FILTER BAR -->
+  <section class="container-prose">
+    <div class="hairline pt-6 pb-2 flex flex-wrap items-center gap-x-8 gap-y-3" role="tablist" aria-label="Filter projects by category">
+      {categories.map((cat, i) => (
+        <button
+          type="button"
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-filter={cat}
+          class="filter-btn text-sm tracking-wide transition-colors aria-selected:text-[color:var(--color-ink)] text-[color:var(--color-stone)] hover:text-[color:var(--color-ink)] aria-selected:underline underline-offset-8 decoration-[color:var(--color-moss)] decoration-2"
+        >
+          {labels[cat] ?? cat}
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="container-prose mt-12 mb-32" id="project-grid">
+    <ul class="grid md:grid-cols-2 gap-x-10 gap-y-20 list-none p-0">
+      {allProjects.map((p, i) => (
+        <li
+          class="project-card"
+          data-category={p.data.category}
+          style={`--card-offset: ${i % 2 === 1 ? '4rem' : '0'};`}
+        >
+          <a href={`/projects/${p.id}`} class="group block md:[margin-top:var(--card-offset)]">
+            <figure class="relative aspect-[4/5] overflow-hidden">
+              <img
+                src={p.data.coverImage}
+                alt={p.data.title}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </figure>
+            <div class="mt-5 flex items-baseline justify-between gap-4">
+              <h2 class="font-display text-2xl text-[color:var(--color-ink)]">{p.data.title}</h2>
+              <span class="text-xs uppercase tracking-[0.16em] text-[color:var(--color-stone)] whitespace-nowrap">
+                {p.data.year}
+              </span>
+            </div>
+            <p class="mt-1 text-sm text-[color:var(--color-stone)]">{p.data.location}</p>
+            <p class="mt-3 text-sm text-[color:var(--color-slate)] line-clamp-2">{p.data.summary}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p id="empty-state" class="hidden mt-16 text-center text-[color:var(--color-stone)]">
+      No projects in this category yet.
+    </p>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLLIElement>('.project-card');
+  const empty = document.getElementById('empty-state');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'all';
+      buttons.forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      empty?.classList.toggle('hidden', visible !== 0);
+    });
+  });
+</script>
