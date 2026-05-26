@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  # The @astrojs/netlify adapter writes serverless functions here.
+  directory = ".netlify/functions-internal"
+  node_bundler = "esbuild"
+
+# Astro adapter handles its own redirects. No manual rules needed.

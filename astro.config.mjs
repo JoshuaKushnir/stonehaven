@@ -1,14 +1,14 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
+import netlify from '@astrojs/netlify';
 import tailwindcss from '@tailwindcss/vite';
 
-const SITE_URL = process.env.SITE_URL || 'https://stonehaven-studio.example.com';
+const SITE_URL = process.env.URL || process.env.SITE_URL || 'https://stonehaven-studio.example.com';
 
 export default defineConfig({
   site: SITE_URL,
   output: 'static',
-  adapter: vercel({ webAnalytics: { enabled: false } }),
+  adapter: netlify(),
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

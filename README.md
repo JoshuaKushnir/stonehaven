@@ -15,7 +15,7 @@ A portfolio piece showing two patterns I sell together:
 - **Astro 5 static output** — sub-second loads, near-zero client JS, Lighthouse 95+ without trying
 - **Astro content collections** as the default data source — version-controlled, runs out of the box
 - **Sanity Studio v3 schemas** included for the production swap (`sanity/` folder) — the owner edits content with image uploads and the site rebuilds automatically
-- **Vercel serverless `/api/quote` endpoint** for the lead form, with Resend for delivery (falls back to console-log if no key is set, so the form works in local dev without setup)
+- **Netlify Functions `/api/quote` endpoint** for the lead form, with Resend for delivery (falls back to console-log if no key is set, so the form works in local dev without setup)
 - **Programmatic per-town landing pages** for local SEO — eight today, fifty just as easy
 - **LocalBusiness JSON-LD**, OpenGraph, sitemap, robots.txt, canonical URLs — all the table stakes
 - **Premium design system** — restrained type pairing (Fraunces + Inter), warm-neutral palette, asymmetric editorial layouts, generous whitespace
@@ -43,7 +43,7 @@ The site is the kind of marketing page a high-end contractor, architect, or desi
 | CMS swap | [Sanity Studio v3](https://sanity.io) schemas in `sanity/` (see [sanity/README.md](sanity/README.md)) |
 | AI       | [OpenAI Chat Completions](https://platform.openai.com/docs/api-reference/chat) — streaming SSE, function calling, brand-trained system prompt in `src/pages/api/chat.ts` |
 | Forms    | [Resend](https://resend.com) via a server endpoint at `src/pages/api/quote.ts` |
-| Hosting  | [Vercel](https://vercel.com) (free tier)                            |
+| Hosting  | [Netlify](https://netlify.com) (free tier — static + functions)     |
 | SEO      | `@astrojs/sitemap`, hand-rolled JSON-LD helpers in `src/lib/seo.ts` |
 
 ## Local development
@@ -59,19 +59,21 @@ Open <http://localhost:4321>. The quote form works without any env vars — subm
 
 To send real emails locally, drop a `RESEND_API_KEY` into `.env`. To swap the content layer to Sanity, see [sanity/README.md](sanity/README.md).
 
-## Build & deploy to Vercel
+## Build & deploy to Netlify
 
 ```bash
-npm run build              # writes static site + serverless function
+npm run build              # writes static site + serverless functions
 npm run preview            # serves the production build locally
 ```
 
 To deploy:
 
-1. Push this folder to GitHub.
-2. On [vercel.com](https://vercel.com), **Add New → Project**, import the repo, set **Root Directory** to `stonehaven/`.
-3. (Optional) Add environment variables: `RESEND_API_KEY`, `QUOTE_TO_EMAIL`, `QUOTE_FROM_EMAIL`, `SITE_URL`.
-4. Deploy. Vercel auto-detects Astro via the adapter and configures the `/api/quote` function automatically.
+1. Push this repo to GitHub (already done for this project).
+2. On [app.netlify.com](https://app.netlify.com), **Add new site → Import an existing project**, pick the repo. Netlify reads `netlify.toml` and auto-detects Astro — leave the defaults.
+3. (Optional) Add environment variables under **Site settings → Environment variables**: `OPENAI_API_KEY`, `RESEND_API_KEY`, `QUOTE_TO_EMAIL`, `QUOTE_FROM_EMAIL`.
+4. Deploy. Every subsequent `git push` to `main` auto-deploys.
+
+The `@astrojs/netlify` adapter compiles `/api/chat`, `/api/quote`, `/img/[seed].svg`, and `/robots.txt` into Netlify Functions automatically — no per-route config needed.
 
 ## Project layout
 
