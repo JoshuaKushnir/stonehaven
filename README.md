@@ -4,7 +4,7 @@ A reference build for a premium service-business marketing site **with first-cla
 
 ![status](https://img.shields.io/badge/status-built-success) ![stack](https://img.shields.io/badge/stack-Astro%205%20%7C%20Tailwind%204%20%7C%20Sanity%20%7C%20OpenAI-1a1a17) ![lighthouse](https://img.shields.io/badge/lighthouse-95%2B-10a37f)
 
-> **Live demo:** _add your Vercel URL here after deployment_
+> _***[Live demo](https://stone-haven.netlify.app/)***_
 
 ## Why this exists
 
